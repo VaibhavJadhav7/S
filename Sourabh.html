@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculator</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  #calculator {
+    width: 320px;
+    background-color: #444;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    color: white;
+  }
+  #result {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+  button {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    margin: 6px;
+    border: none;
+    background-color: #333;
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  button:hover {
+    background-color: #555;
+  }
+  .row {
+    display: flex;
+    justify-content: space-between;
+  }
+</style>
+</head>
+<body>
+<div id="calculator">
+  <div id="result">0</div>
+  <div class="row">
+    <button onclick="appendNumber('7')">7</button>
+    <button onclick="appendNumber('8')">8</button>
+    <button onclick="appendNumber('9')">9</button>
+    <button onclick="appendOperator('+')">+</button>
+  </div>
+  <div class="row">
+    <button onclick="appendNumber('4')">4</button>
+    <button onclick="appendNumber('5')">5</button>
+    <button onclick="appendNumber('6')">6</button>
+    <button onclick="appendOperator('-')">-</button>
+  </div>
+  <div class="row">
+    <button onclick="appendNumber('1')">1</button>
+    <button onclick="appendNumber('2')">2</button>
+    <button onclick="appendNumber('3')">3</button>
+    <button onclick="appendOperator('*')">*</button>
+  </div>
+  <div class="row">
+    <button onclick="appendNumber('0')">0</button>
+    <button onclick="clearAll()">C</button>
+    <button onclick="calculate()">=</button>
+    <button onclick="appendOperator('/')">/</button>
+  </div>
+</div>
+<script>
+  let currentNumber = '';
+  let currentOperator = '';
+  let previousNumber = '';
+
+  function appendNumber(number) {
+    currentNumber += number;
+    document.getElementById('result').innerText = currentNumber;
+  }
+
+  function appendOperator(operator) {
+    if (currentNumber !== '') {
+      currentOperator = operator;
+      previousNumber = currentNumber;
+      currentNumber = '';
+    }
+  }
+
+  function calculate() {
+    if (currentNumber !== '' && previousNumber !== '' && currentOperator !== '') {
+      let result = 0;
+      switch (currentOperator) {
+        case '+':
+          result = parseFloat(previousNumber) + parseFloat(currentNumber);
+          break;
+        case '-':
+          result = parseFloat(previousNumber) - parseFloat(currentNumber);
+          break;
+        case '*':
+          result = parseFloat(previousNumber) * parseFloat(currentNumber);
+          break;
+        case '/':
+          result = parseFloat(previousNumber) / parseFloat(currentNumber);
+          break;
+      }
+      document.getElementById('result').innerText = result;
+      currentNumber = result.toString();
+      currentOperator = '';
+      previousNumber = '';
+    }
+  }
+
+  function clearAll() {
+    currentNumber = '';
+    currentOperator = '';
+    previousNumber = '';
+    document.getElementById('result').innerText = '0';
+  }
+</script>
+</body>
+</html>
